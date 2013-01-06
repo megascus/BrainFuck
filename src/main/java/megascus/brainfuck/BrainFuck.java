@@ -70,9 +70,16 @@ public class BrainFuck {
                 openPoint.push(match.start());
                 return;
             }
+            int openTagCount = 1;
             do {
                 match.find();
-            } while (!cmd.getClose().contains(match.group()));
+                String group = match.group();
+                if(cmd.getClose().contains(group)) {
+                    openTagCount -=1;
+                } else if(cmd.getOpen().contains(group)) {
+                    openTagCount +=1;
+                }
+            } while (openTagCount != 0);
             return;
         }
         if (cmd.getClose().contains(g)) {
